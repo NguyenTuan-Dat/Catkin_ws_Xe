@@ -1,0 +1,2 @@
+dira_pca8266_controller:hal_ros:ros_astra_camera:team503:test_pkg
+-DCATKIN_DEVEL_PREFIX=/home/ubuntu/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/ubuntu/catkin_ws/install -G Unix Makefiles

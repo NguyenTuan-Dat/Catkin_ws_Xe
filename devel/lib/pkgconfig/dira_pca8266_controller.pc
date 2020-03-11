@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/catkin_ws/devel
+
+Name: dira_pca8266_controller
+Description: Description of dira_pca8266_controller
+Version: 0.0.0
+Cflags: -I/home/ubuntu/catkin_ws/src/dira_pca8266_controller/include
+Libs: -L/home/ubuntu/catkin_ws/devel/lib -ldira_pca8266_controller
+Requires: roscpp std_msgs ackermann_msgs

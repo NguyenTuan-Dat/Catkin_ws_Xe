@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/catkin_ws/devel
+
+Name: hal
+Description: Description of hal
+Version: 0.0.0
+Cflags: -I/home/ubuntu/catkin_ws/src/hal_ros/include
+Libs: -L/home/ubuntu/catkin_ws/devel/lib -lhal
+Requires: roscpp std_msg message_runtime

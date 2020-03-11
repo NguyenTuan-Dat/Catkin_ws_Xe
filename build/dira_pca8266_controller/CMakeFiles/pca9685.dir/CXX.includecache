@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ubuntu/catkin_ws/src/dira_pca8266_controller/include/JHPWMPCA9685.h
+cstddef
+-
+i2c/smbus.h
+-
+linux/i2c-dev.h
+-
+sys/ioctl.h
+-
+cstdlib
+-
+cstdio
+-
+fcntl.h
+-
+unistd.h
+-
+errno.h
+-
+
+/home/ubuntu/catkin_ws/src/dira_pca8266_controller/src/JHPWMPCA9685.cpp
+JHPWMPCA9685.h
+-
+math.h
+-
+
