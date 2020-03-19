@@ -30,6 +30,7 @@ class MyListener(keyboard.Listener):
         if key == keyboard.Key.down:
             self.back = False
 
+status = 1
 msg_speed = Float32()
 msg_speed.data = 0
 msg_steer = Float32()
@@ -53,13 +54,13 @@ while True:
     time.sleep(rate)
     if listener.go == True:
         msg_speed.data = 60
-        pub_speed.publish(msg_speed)
+        pub_speed.publish(msg_speed*status)
         msg_lcd.data = "ROAD TO HN ..."
         pub_lcd.publish(msg_lcd)
         pub_led.publish(True)
     elif listener.back == True:
         msg_speed.data = -10
-        pub_speed.publish(msg_speed)
+        pub_speed.publish(msg_speed*status)
         msg_lcd.data = "ROAD TO HN ..."
         pub_lcd.publish(msg_lcd)
         pub_led.publish(True)
