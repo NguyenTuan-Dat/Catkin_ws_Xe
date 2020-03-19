@@ -191,28 +191,35 @@ def drive_callback(rgb_data):
     global check
     road_seg = [128, 64, 128]
     if (time.time() - start_time > 0.001):
+        ######################################  CONVERT ROS DATA TO RGB IMAGE ###########################################
         np_arr = np.fromstring(rgb_data.data, np.uint8)
         image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         image_RGB = cv2.cvtColor(image_np, cv2.COLOR_BGR2RGB)
+
+        ###################################### GET ROAD, LINE, SIGN, OBSTACLE MASK ###########################################
         pr_mask = model.predict(image_RGB)
         sign = -1
-        image_gray = cv2.cvtColor(image_RGB, cv2.COLOR_RGB2GRAY)
-        sign_rect = sign_cascade.detectMultiScale(image_gray, 1.13, 1)
-        for (x_sign, y_sign, w_sign, h_sign) in sign_rect:
-            sign_crop = image_RGB[y_sign:y_sign + h_sign, x_sign:x_sign + w_sign]
-            sign_crop = cv2.resize(sign_crop, (16, 16))
-            with graph.as_default():
-                set_session(sess)
-                sign_predicted = model2.predict(np.array([sign_crop]))
-            print(sign_predicted)
-            sign_id = np.where(sign_predicted[0] == np.amax(sign_predicted[0]))
-            print(sign_id)
-            if sign_id[0] == 1:  #and sign_predicted[0][1]>=0.6
-                print("RE PHAIIIIIIIII")
-                sign = 1
-            elif sign_id[0] == 0:  #and sign_predicted[0][0]>=0.6
-                print("RE TRAIIIIIIIII")
-                sign = 0
+
+        ###################################### GET TURN RIGHT, TURN LEFT SIGN ###########################################
+
+        # TEMPRORY TURN OFF FOR TESTING
+        # image_gray = cv2.cvtColor(image_RGB, cv2.COLOR_RGB2GRAY)
+        # sign_rect = sign_cascade.detectMultiScale(image_gray, 1.13, 1)
+        # for (x_sign, y_sign, w_sign, h_sign) in sign_rect:
+        #     sign_crop = image_RGB[y_sign:y_sign + h_sign, x_sign:x_sign + w_sign]
+        #     sign_crop = cv2.resize(sign_crop, (16, 16))
+        #     with graph.as_default():
+        #         set_session(sess)
+        #         sign_predicted = model2.predict(np.array([sign_crop]))
+        #     print(sign_predicted)
+        #     sign_id = np.where(sign_predicted[0] == np.amax(sign_predicted[0]))
+        #     print(sign_id)
+        #     if sign_id[0] == 1:  #and sign_predicted[0][1]>=0.6
+        #         print("RE PHAIIIIIIIII")
+        #         sign = 1
+        #     elif sign_id[0] == 0:  #and sign_predicted[0][0]>=0.6
+        #         print("RE TRAIIIIIIIII")
+        #         sign = 0
 
         ###################################### CAR CONTROL ###########################################
         speed, angle = get_steer(sign, pr_mask)
@@ -221,11 +228,6 @@ def drive_callback(rgb_data):
         pub_steer.publish(msg_steer)
         pub_speed.publish(msg_speed)
         cv2.waitKey(1)
-
-
-
-
-
 
 def listener():
     rospy.Subscriber('team503/camera/rgb/compressed', CompressedImage, drive_callback, buff_size=2 ** 24)
