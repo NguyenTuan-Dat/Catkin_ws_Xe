@@ -10,7 +10,7 @@ import rospy
 import cv2
 import numpy as np
 import message_filters
-from std_msgs.msg import Float32
+from std_msgs.msg import Float32, Bool
 from sensor_msgs.msg import CompressedImage
 import csv
 import time
@@ -37,6 +37,9 @@ graph = tf.get_default_graph()
 
 set_session(sess)
 
+run_status = False
+stop_status = True
+
 import rospkg
 
 json_file = open(cur_dir+"/scripts/model.json", 'r')
@@ -58,7 +61,8 @@ cur_dir = rospack.get_path('team503')
 
 pub_steer = rospy.Publisher('set_steer_car_api', Float32, queue_size=10)
 pub_speed = rospy.Publisher('set_speed_car_api', Float32, queue_size=10)
-
+pub_lcd = rospy.Publisher('lcd_print', String, queue_size=1)
+pub_led = rospy.Publisher('led_status', Bool, queue_size=10)
 
 
 rospy.init_node('control', anonymous=True)
@@ -146,6 +150,13 @@ e2 = 20
 e1 = 1.6
 t = 0.1
 
+def stop_cb(data):
+    if(data.data):
+        run_status = False
+
+def start_cb(data):
+    if(data.data):
+        run_status = True
 
 def tranform(img, v, a):
     height, width = img.shape[:2]
@@ -188,48 +199,66 @@ def drive_callback(rgb_data):
     global sign
     global speed
     global check
+    global run_status
+    global stop_status
+
+
     road_seg = [128, 64, 128]
-    if (time.time() - start_time > 0.001):
-        ######################################  CONVERT ROS DATA TO RGB IMAGE ###########################################
-        np_arr = np.fromstring(rgb_data.data, np.uint8)
-        image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-        image_RGB = cv2.cvtColor(image_np, cv2.COLOR_BGR2RGB)
+    if(run_status):
+        pub_lcd.publish("")
+        msg_lcd.data = "Running..."
+        pub_lcd.publish(msg_lcd)
+        pub_led.publish(True)
+        if (time.time() - start_time > 0.001):
+            ######################################  CONVERT ROS DATA TO RGB IMAGE ###########################################
+            np_arr = np.fromstring(rgb_data.data, np.uint8)
+            image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+            image_RGB = cv2.cvtColor(image_np, cv2.COLOR_BGR2RGB)
 
-        ###################################### GET ROAD, LINE, SIGN, OBSTACLE MASK ###########################################
-        pr_mask = model.predict(image_RGB)
-        sign = -1
+            ###################################### GET ROAD, LINE, SIGN, OBSTACLE MASK ###########################################
+            pr_mask = model.predict(image_RGB)
+            sign = -1
 
-        ###################################### GET TURN RIGHT, TURN LEFT SIGN ###########################################
+            ###################################### GET TURN RIGHT, TURN LEFT SIGN ###########################################
 
-        # TEMPRORY TURN OFF FOR TESTING
-        # image_gray = cv2.cvtColor(image_RGB, cv2.COLOR_RGB2GRAY)
-        # sign_rect = sign_cascade.detectMultiScale(image_gray, 1.13, 1)
-        # for (x_sign, y_sign, w_sign, h_sign) in sign_rect:
-        #     sign_crop = image_RGB[y_sign:y_sign + h_sign, x_sign:x_sign + w_sign]
-        #     sign_crop = cv2.resize(sign_crop, (16, 16))
-        #     with graph.as_default():
-        #         set_session(sess)
-        #         sign_predicted = model2.predict(np.array([sign_crop]))
-        #     print(sign_predicted)
-        #     sign_id = np.where(sign_predicted[0] == np.amax(sign_predicted[0]))
-        #     print(sign_id)
-        #     if sign_id[0] == 1:  #and sign_predicted[0][1]>=0.6
-        #         print("RE PHAIIIIIIIII")
-        #         sign = 1
-        #     elif sign_id[0] == 0:  #and sign_predicted[0][0]>=0.6
-        #         print("RE TRAIIIIIIIII")
-        #         sign = 0
+            # TEMPRORY TURN OFF FOR TESTING
+            # image_gray = cv2.cvtColor(image_RGB, cv2.COLOR_RGB2GRAY)
+            # sign_rect = sign_cascade.detectMultiScale(image_gray, 1.13, 1)
+            # for (x_sign, y_sign, w_sign, h_sign) in sign_rect:
+            #     sign_crop = image_RGB[y_sign:y_sign + h_sign, x_sign:x_sign + w_sign]
+            #     sign_crop = cv2.resize(sign_crop, (16, 16))
+            #     with graph.as_default():
+            #         set_session(sess)
+            #         sign_predicted = model2.predict(np.array([sign_crop]))
+            #     print(sign_predicted)
+            #     sign_id = np.where(sign_predicted[0] == np.amax(sign_predicted[0]))
+            #     print(sign_id)
+            #     if sign_id[0] == 1:  #and sign_predicted[0][1]>=0.6
+            #         print("RE PHAIIIIIIIII")
+            #         sign = 1
+            #     elif sign_id[0] == 0:  #and sign_predicted[0][0]>=0.6
+            #         print("RE TRAIIIIIIIII")
+            #         sign = 0
 
-        ###################################### CAR CONTROL ###########################################
-        speed, angle = get_steer(sign, pr_mask)
-        msg_steer.data = float(angle)
-        msg_speed.data = float(speed)
-        pub_steer.publish(msg_steer)
-        pub_speed.publish(msg_speed)
-        cv2.waitKey(1)
+            ###################################### CAR CONTROL ###########################################
+            speed, angle = get_steer(sign, pr_mask)
+            msg_steer.data = float(angle)
+            msg_speed.data = float(speed)
+            pub_steer.publish(msg_steer)
+            pub_speed.publish(msg_speed)
+    else:
+        pub_lcd.publish("")
+        msg_lcd.data = "Stopped..."
+        pub_lcd.publish(msg_lcd)
+        pub_led.publish(False)
+        pub_steer.publish(0)
+        pub_speed.publish(0)
+        
 
 def listener():
     rospy.Subscriber('/camera/rgb/image_raw/compressed', CompressedImage, drive_callback, buff_size=2 ** 24)
+    rospy.Subscriber('bt3_status', Bool, start_cb)
+    rospy.Subscriber('bt4_status', Bool, stop_cb)
     rospy.spin()
 
 
