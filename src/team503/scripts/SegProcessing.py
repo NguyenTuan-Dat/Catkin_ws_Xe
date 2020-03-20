@@ -27,7 +27,7 @@ cur_dir = rospack.get_path('team503')
 
 def dynamic_speed(angle):
 
-    return 30 - (abs(angle) * 0.1)
+    return 20
 
 def get_bird_view(img):
 
@@ -226,6 +226,8 @@ def get_steer(sign, mask):
     # print(time.time() - start_time)
     # start_time = time.time()
     bird_view = get_bird_view(road_mask)
+    cv2.imshow("birdview",bird_view)
+    cv2.waitKey(1)
     # print(time.time() - start_time)
     # start_time = time.time()
     # car_mask = get_car_mask(frame)

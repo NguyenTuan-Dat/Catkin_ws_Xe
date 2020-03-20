@@ -117,12 +117,14 @@ int main(int argc, char **argv)
         }
         if (bt3_status == HIGH){
             STATUS3 = true;
+            ROS_INFO("Bt3");
         }
         else{
             STATUS3 = false;
         }
         if (bt4_status == HIGH){
             STATUS4 = true;
+            ROS_INFO("Bt4");
         }
         else{
             STATUS4 = false;

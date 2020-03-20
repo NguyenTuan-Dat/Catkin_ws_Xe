@@ -39,6 +39,9 @@ pub_steer = rospy.Publisher('set_steer_car_api', Float32, queue_size=10)
 pub_speed = rospy.Publisher('set_speed_car_api', Float32, queue_size=10)
 pub_lcd = rospy.Publisher('lcd_print', String, queue_size=1)
 pub_led = rospy.Publisher('led_status', Bool, queue_size=10)
+pub_bt1 = rospy.Publisher('bt1', Bool, queue_size=1)
+pub_bt2 = rospy.Publisher('bt2', Bool, queue_size=1)
+
 rospy.init_node('control', anonymous=True) 
 right_accelerate = 0
 left_accelerate = 0
@@ -53,38 +56,42 @@ started = False
 while True:
     time.sleep(rate)
     if listener.go == True:
-        msg_speed.data = 60
-        pub_speed.publish(msg_speed*status)
-        msg_lcd.data = "ROAD TO HN ..."
-        pub_lcd.publish(msg_lcd)
-        pub_led.publish(True)
+        pub_bt1.publish(True)
+        pub_bt2.publish(False)
+        # msg_speed.data = 60
+        # pub_speed.publish(msg_speed*status)
+        # msg_lcd.data = "ROAD TO HN ..."
+        # pub_lcd.publish(msg_lcd)
+        # pub_led.publish(True)
     elif listener.back == True:
-        msg_speed.data = -10
-        pub_speed.publish(msg_speed*status)
-        msg_lcd.data = "ROAD TO HN ..."
-        pub_lcd.publish(msg_lcd)
-        pub_led.publish(True)
-    elif listener.go == False and listener.back == False:
-        msg_speed.data = 0
-        pub_speed.publish(msg_speed)
-        msg_lcd.data = "stop"
-        pub_lcd.publish(msg_lcd)
-        pub_led.publish(False)
-    if listener.right == True:
-        left_accelerate = 0
-        msg_steer.data = 50
-        right_accelerate = right_accelerate + rate * 13
-        pub_steer.publish(msg_steer)
-    elif listener.left == True:
-        right_accelerate = 0
-        msg_steer.data = -50
-        left_accelerate = left_accelerate + rate * 13
-        pub_steer.publish(msg_steer)
-    if listener.right == False and listener.left == False:
-        msg_steer.data = 0
-        pub_steer.publish(msg_steer)
-        right_accelerate = 0
-        left_accelerate = 0
-	
+        pub_bt2.publish(True)
+        pub_bt1.publish(False)
+        # msg_speed.data = -10
+        # pub_speed.publish(msg_speed*status)
+        # msg_lcd.data = "ROAD TO HN ..."
+        # pub_lcd.publish(msg_lcd)
+        # pub_led.publish(True)
+    # elif listener.go == False and listener.back == False:
+    #     msg_speed.data = 0
+    #     pub_speed.publish(msg_speed)
+    #     msg_lcd.data = "stop"
+    #     pub_lcd.publish(msg_lcd)
+    #     pub_led.publish(False)
+    # if listener.right == True:
+    #     left_accelerate = 0
+    #     msg_steer.data = 50
+    #     right_accelerate = right_accelerate + rate * 13
+    #     pub_steer.publish(msg_steer)
+    # elif listener.left == True:
+    #     right_accelerate = 0
+    #     msg_steer.data = -50
+    #     left_accelerate = left_accelerate + rate * 13
+    #     pub_steer.publish(msg_steer)
+    # if listener.right == False and listener.left == False:
+    #     msg_steer.data = 0
+    #     pub_steer.publish(msg_steer)
+    #     right_accelerate = 0
+    #     left_accelerate = 0
+    
 	
         

@@ -2352,6 +2352,7 @@ clean: ros_astra_camera/CMakeFiles/astra_camera_genpy.dir/clean
 # Target rules for target ros_astra_camera/CMakeFiles/astra_camera_generate_messages_nodejs.dir
 
 # All Build rule for target.
+ros_astra_camera/CMakeFiles/astra_camera_generate_messages_nodejs.dir/all: dira_pca8266_controller/CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_nodejs.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_SetIRFlood.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_nodejs.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_SetUVCGain.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_nodejs.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_SwitchIRCamera.dir/all
@@ -2372,7 +2373,6 @@ ros_astra_camera/CMakeFiles/astra_camera_generate_messages_nodejs.dir/all: ros_a
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_nodejs.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_GetDeviceType.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_nodejs.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_GetIRExposure.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_nodejs.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_GetCameraInfo.dir/all
-ros_astra_camera/CMakeFiles/astra_camera_generate_messages_nodejs.dir/all: dira_pca8266_controller/CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
 	$(MAKE) -f ros_astra_camera/CMakeFiles/astra_camera_generate_messages_nodejs.dir/build.make ros_astra_camera/CMakeFiles/astra_camera_generate_messages_nodejs.dir/depend
 	$(MAKE) -f ros_astra_camera/CMakeFiles/astra_camera_generate_messages_nodejs.dir/build.make ros_astra_camera/CMakeFiles/astra_camera_generate_messages_nodejs.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=39,40,41,42,43,44,45,46,47,48,49,50 "Built target astra_camera_generate_messages_nodejs"
@@ -2468,6 +2468,7 @@ clean: ros_astra_camera/CMakeFiles/astra_camera_geneus.dir/clean
 # Target rules for target ros_astra_camera/CMakeFiles/astra_camera_generate_messages_eus.dir
 
 # All Build rule for target.
+ros_astra_camera/CMakeFiles/astra_camera_generate_messages_eus.dir/all: dira_pca8266_controller/CMakeFiles/std_msgs_generate_messages_eus.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_eus.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_SetIRFlood.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_eus.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_SetUVCGain.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_eus.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_SwitchIRCamera.dir/all
@@ -2488,7 +2489,6 @@ ros_astra_camera/CMakeFiles/astra_camera_generate_messages_eus.dir/all: ros_astr
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_eus.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_GetDeviceType.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_eus.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_GetIRExposure.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_eus.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_GetCameraInfo.dir/all
-ros_astra_camera/CMakeFiles/astra_camera_generate_messages_eus.dir/all: dira_pca8266_controller/CMakeFiles/std_msgs_generate_messages_eus.dir/all
 	$(MAKE) -f ros_astra_camera/CMakeFiles/astra_camera_generate_messages_eus.dir/build.make ros_astra_camera/CMakeFiles/astra_camera_generate_messages_eus.dir/depend
 	$(MAKE) -f ros_astra_camera/CMakeFiles/astra_camera_generate_messages_eus.dir/build.make ros_astra_camera/CMakeFiles/astra_camera_generate_messages_eus.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=14,15,16,17,18,19,20,21,22,23,24,25,26 "Built target astra_camera_generate_messages_eus"
@@ -2552,6 +2552,7 @@ clean: ros_astra_camera/CMakeFiles/astra_camera_gencpp.dir/clean
 # Target rules for target ros_astra_camera/CMakeFiles/astra_camera_generate_messages_cpp.dir
 
 # All Build rule for target.
+ros_astra_camera/CMakeFiles/astra_camera_generate_messages_cpp.dir/all: dira_pca8266_controller/CMakeFiles/std_msgs_generate_messages_cpp.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_cpp.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_SetIRFlood.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_cpp.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_SetUVCGain.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_cpp.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_SwitchIRCamera.dir/all
@@ -2572,7 +2573,6 @@ ros_astra_camera/CMakeFiles/astra_camera_generate_messages_cpp.dir/all: ros_astr
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_cpp.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_GetDeviceType.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_cpp.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_GetIRExposure.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_cpp.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_GetCameraInfo.dir/all
-ros_astra_camera/CMakeFiles/astra_camera_generate_messages_cpp.dir/all: dira_pca8266_controller/CMakeFiles/std_msgs_generate_messages_cpp.dir/all
 	$(MAKE) -f ros_astra_camera/CMakeFiles/astra_camera_generate_messages_cpp.dir/build.make ros_astra_camera/CMakeFiles/astra_camera_generate_messages_cpp.dir/depend
 	$(MAKE) -f ros_astra_camera/CMakeFiles/astra_camera_generate_messages_cpp.dir/build.make ros_astra_camera/CMakeFiles/astra_camera_generate_messages_cpp.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=2,3,4,5,6,7,8,9,10,11,12,13 "Built target astra_camera_generate_messages_cpp"
@@ -3148,6 +3148,7 @@ clean: ros_astra_camera/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/clea
 # Target rules for target ros_astra_camera/CMakeFiles/astra_camera_generate_messages_lisp.dir
 
 # All Build rule for target.
+ros_astra_camera/CMakeFiles/astra_camera_generate_messages_lisp.dir/all: dira_pca8266_controller/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_lisp.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_SetIRFlood.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_lisp.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_SetUVCGain.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_lisp.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_SwitchIRCamera.dir/all
@@ -3168,7 +3169,6 @@ ros_astra_camera/CMakeFiles/astra_camera_generate_messages_lisp.dir/all: ros_ast
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_lisp.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_GetDeviceType.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_lisp.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_GetIRExposure.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_lisp.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_GetCameraInfo.dir/all
-ros_astra_camera/CMakeFiles/astra_camera_generate_messages_lisp.dir/all: dira_pca8266_controller/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
 	$(MAKE) -f ros_astra_camera/CMakeFiles/astra_camera_generate_messages_lisp.dir/build.make ros_astra_camera/CMakeFiles/astra_camera_generate_messages_lisp.dir/depend
 	$(MAKE) -f ros_astra_camera/CMakeFiles/astra_camera_generate_messages_lisp.dir/build.make ros_astra_camera/CMakeFiles/astra_camera_generate_messages_lisp.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=27,28,29,30,31,32,33,34,35,36,37,38 "Built target astra_camera_generate_messages_lisp"
@@ -3304,6 +3304,7 @@ clean: ros_astra_camera/CMakeFiles/astra_camera_node.dir/clean
 # Target rules for target ros_astra_camera/CMakeFiles/astra_camera_generate_messages_py.dir
 
 # All Build rule for target.
+ros_astra_camera/CMakeFiles/astra_camera_generate_messages_py.dir/all: dira_pca8266_controller/CMakeFiles/std_msgs_generate_messages_py.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_py.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_SetIRFlood.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_py.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_SetUVCGain.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_py.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_SwitchIRCamera.dir/all
@@ -3324,7 +3325,6 @@ ros_astra_camera/CMakeFiles/astra_camera_generate_messages_py.dir/all: ros_astra
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_py.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_GetDeviceType.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_py.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_GetIRExposure.dir/all
 ros_astra_camera/CMakeFiles/astra_camera_generate_messages_py.dir/all: ros_astra_camera/CMakeFiles/_astra_camera_generate_messages_check_deps_GetCameraInfo.dir/all
-ros_astra_camera/CMakeFiles/astra_camera_generate_messages_py.dir/all: dira_pca8266_controller/CMakeFiles/std_msgs_generate_messages_py.dir/all
 	$(MAKE) -f ros_astra_camera/CMakeFiles/astra_camera_generate_messages_py.dir/build.make ros_astra_camera/CMakeFiles/astra_camera_generate_messages_py.dir/depend
 	$(MAKE) -f ros_astra_camera/CMakeFiles/astra_camera_generate_messages_py.dir/build.make ros_astra_camera/CMakeFiles/astra_camera_generate_messages_py.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ubuntu/catkin_ws/build/CMakeFiles --progress-num=51,52,53,54,55,56,57,58,59,60,61,62,63 "Built target astra_camera_generate_messages_py"

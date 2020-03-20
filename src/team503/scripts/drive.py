@@ -10,7 +10,7 @@ import rospy
 import cv2
 import numpy as np
 import message_filters
-from std_msgs.msg import Float32, Bool
+from std_msgs.msg import Float32, Bool, String
 from sensor_msgs.msg import CompressedImage
 import csv
 import time
@@ -86,6 +86,7 @@ msg_speed = Float32()
 msg_speed.data = 20
 msg_steer = Float32()
 msg_steer.data = 0
+msg_lcd = String()
 
 
 start_time = time.time()
@@ -151,12 +152,16 @@ e1 = 1.6
 t = 0.1
 
 def stop_cb(data):
+    global run_status
     if(data.data):
         run_status = False
+    
 
 def start_cb(data):
+    global run_status
     if(data.data):
         run_status = True
+    print("YOOOOOOOOoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo")
 
 def tranform(img, v, a):
     height, width = img.shape[:2]
@@ -165,7 +170,7 @@ def tranform(img, v, a):
         sign = -1
     delta_y = v * e1 * math.cos(abs(a) * e2 * 3.14 / 180) * t
     delta_x = v * e1 * math.sin(abs(a) * e2 * 3.14 / 180) * t
-    print(delta_x, delta_y)
+    # print(delta_x, delta_y)
     T = np.float32([[1, 0, -sign * delta_x], [0, 1, -delta_y]])
     img_translation = cv2.warpAffine(img, T, (width, height))
     return img_translation
@@ -201,8 +206,6 @@ def drive_callback(rgb_data):
     global check
     global run_status
     global stop_status
-
-
     road_seg = [128, 64, 128]
     if(run_status):
         pub_lcd.publish("")
@@ -211,12 +214,17 @@ def drive_callback(rgb_data):
         pub_led.publish(True)
         if (time.time() - start_time > 0.001):
             ######################################  CONVERT ROS DATA TO RGB IMAGE ###########################################
+            begin = time.time()
             np_arr = np.fromstring(rgb_data.data, np.uint8)
             image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
             image_RGB = cv2.cvtColor(image_np, cv2.COLOR_BGR2RGB)
 
             ###################################### GET ROAD, LINE, SIGN, OBSTACLE MASK ###########################################
+            
             pr_mask = model.predict(image_RGB)
+            cv2.imshow("image_RGB",image_RGB)
+            cv2.imshow("pr_mask",pr_mask)
+            cv2.waitKey(1)
             sign = -1
 
             ###################################### GET TURN RIGHT, TURN LEFT SIGN ###########################################
@@ -242,10 +250,12 @@ def drive_callback(rgb_data):
 
             ###################################### CAR CONTROL ###########################################
             speed, angle = get_steer(sign, pr_mask)
+            print(angle)
             msg_steer.data = float(angle)
             msg_speed.data = float(speed)
             pub_steer.publish(msg_steer)
-            pub_speed.publish(msg_speed)
+            print("Time:"+str(time.time()-begin))
+            # pub_speed.publish(msg_speed)
     else:
         pub_lcd.publish("")
         msg_lcd.data = "Stopped..."
@@ -257,8 +267,8 @@ def drive_callback(rgb_data):
 
 def listener():
     rospy.Subscriber('/camera/rgb/image_raw/compressed', CompressedImage, drive_callback, buff_size=2 ** 24)
-    rospy.Subscriber('bt3_status', Bool, start_cb)
-    rospy.Subscriber('bt4_status', Bool, stop_cb)
+    rospy.Subscriber('bt1', Bool, start_cb,buff_size=10)
+    rospy.Subscriber('bt2', Bool, stop_cb,buff_size=10)
     rospy.spin()
 
 
