@@ -26,7 +26,7 @@ cur_dir = rospack.get_path('team503')
 
 
 def dynamic_speed(angle):
-    return 65 - (abs(angle) * 2.5)
+    return 20 - (abs(angle) * 0.8)
 
 IMAGE_H = 160
 IMAGE_W = 320
@@ -35,7 +35,6 @@ src = np.float32([[0, IMAGE_H], [IMAGE_W, IMAGE_H], [0, 0], [IMAGE_W, 0]])
 dst = np.float32([[135, IMAGE_H], [185, IMAGE_H], [0 - 20, 0], [IMAGE_W + 20, 0]])
 M = cv2.getPerspectiveTransform(src, dst) # The transformation matrix
 def get_bird_view(img):
-
     img = img[80:(80+IMAGE_H), 0:IMAGE_W] # Apply np slicing for ROI crop
     warped_img = cv2.warpPerspective(img, M, (IMAGE_W, IMAGE_H)) # Image warping
     return warped_img
@@ -342,33 +341,3 @@ def get_steer2(sign, mask):
     
     return  speed, angle
 
-# import os
-# path = "/home/sonduong/Documents/data_segment/GT/"
-# fnames = os.listdir(path)
-# fnames.sort()
-# i = 0 
-# road_color = [128, 64, 128]
-
-# while(True):
-#     name  = fnames[i]
-#     frame = cv2.imread(path + name, 1)
-#     road_mask = get_road_mask(frame)
-#     sign_classify(frame, frame)
-#     print(get_steer(frame, frame))
-#     bird_view = get_bird_view(road_mask)
-#     # print(get_confident_vectors(bird_view))
-#     cv2.imshow("Frame", frame)
-#     cv2.imshow("Mask", bird_view)
-#     key = cv2.waitKey(0)
-#     # i+=1
-#     # print(key)
-#     if key == 27:
-#         break
-#     if (key == 81) or (key == 82):
-#         # print("back")
-#         i = i - 1
-#         continue
-#     elif (key == 83) or (key == 84):
-#         i += 1
-#         # print("next")
-#         continue
