@@ -26,20 +26,21 @@ cur_dir = rospack.get_path('team503')
 
 
 def dynamic_speed(angle):
-    return 65 - (abs(angle) * 2.5)
+    return 20 - (abs(angle) * 0.8)
 
-IMAGE_H = 160
-IMAGE_W = 320
-
-src = np.float32([[0, IMAGE_H], [IMAGE_W, IMAGE_H], [0, 0], [IMAGE_W, 0]])
-dst = np.float32([[135, IMAGE_H], [185, IMAGE_H], [0 - 20, 0], [IMAGE_W + 20, 0]])
-M = cv2.getPerspectiveTransform(src, dst) # The transformation matrix
 def get_bird_view(img):
-
-    img = img[80:(80+IMAGE_H), 0:IMAGE_W] # Apply np slicing for ROI crop
-    warped_img = cv2.warpPerspective(img, M, (IMAGE_W, IMAGE_H)) # Image warping
+    IMAGE_H = 320
+    IMAGE_W = 640
+    src = np.float32([[0, IMAGE_H], [IMAGE_W, IMAGE_H], [0, 0], [IMAGE_W, 0]])
+    dst = np.float32([[140, IMAGE_W], [180, IMAGE_W], [0, 0], [IMAGE_H , 0]])
+    M = cv2.getPerspectiveTransform(src, dst) # The transformation matrix
+    img2 = img[140:(120+IMAGE_H), 0:IMAGE_W] # Apply np slicing for ROI crop
+    warped_img = cv2.warpPerspective(img2, M, (IMAGE_H, IMAGE_W-20)) # Image warping
+    # cv2.imshow("img", img)
+    # cv2.imshow("img2", img2)
+    # cv2.imshow("warped_img", warped_img)
+    # cv2.waitKey(0)
     return warped_img
-    # return cv2.resize(warped_img, (IMAGE_W * 2, IMAGE_H * 2))
 
 car_color = (143, 0, 0)
 truck_color = (69, 0, 0)
@@ -58,13 +59,12 @@ def get_car_mask(img):
     # cv2.imshow("sign", result)
     return result
 
-road_color = (128, 64, 128)
 def get_road_mask(img):
-
-    result = cv2.inRange(img, road_color, road_color)
-
-    # result = np.where(result >= 0, result, 0)
-    return result
+    road_color = (128, 64, 128)
+    kernel = np.ones((5,5), np.uint8)
+    road = cv2.inRange(img, road_color, road_color)
+    road = cv2.dilate(road, kernel, iterations=1) 
+    return road
 
 def get_roi():
     black = np.zeros([240, 320],dtype=np.uint8)
@@ -120,12 +120,16 @@ def sign_classify(img_rgb, mask):
         sign = np.array([sign])
         result = model.predict(sign, batch_size = 1) + 1
     return result
-left_cors = get_line_cor((159, 159), (0, 130)).T
-right_cors = get_line_cor((159, 160), (0, 190)).T
-sub_left_cors = get_line_cor((120, 159), (100, 0)).T
-sub_right_cors = get_line_cor((120, 160), (100, 319)).T
+
+#################### INIT CONFIDENCE VECTOR #########################
+left_cors = get_line_cor((619, 159), (0, 120)).T
+right_cors = get_line_cor((619, 161), (0, 200)).T
+sub_left_cors = get_line_cor((590, 159), (585, 0)).T
+sub_right_cors = get_line_cor((590, 161), (585, 319)).T
 turn_thresh = 0
 angle_bias = 0.5
+#################### INIT CONFIDENCE VECTOR #########################
+
 turn_dis_graph = []
 turn_dis_cur = 0
 def turn_status():
@@ -210,7 +214,8 @@ def get_steer(sign, mask):
     global list_signs
     # start_time = time.time()
 
-    frame = cv2.resize(mask, (320, 240)).astype(np.uint8)
+    frame = cv2.resize(mask, (640, 480)).astype(np.uint8)
+
     # print(start_time - time.time())
     # start_time = time.time()
 
@@ -221,23 +226,23 @@ def get_steer(sign, mask):
     bird_view = get_bird_view(road_mask)
     # print(time.time() - start_time)
     # start_time = time.time()
-    car_mask = get_car_mask(frame)
+    # car_mask = get_car_mask(frame)
     # print(time.time() - start_time)
     # start_time = time.time()
 
-    car_mask = get_bird_view(car_mask)
+    # car_mask = get_bird_view(car_mask)
     # print(time.time() - start_time)
     # start_time = time.time()
-    car_mask = cv2.dilate(car_mask, kernel)
-    temp = cv2.bitwise_and(car_mask, bird_view)
+    # car_mask = cv2.dilate(car_mask, kernel)
+    # temp = cv2.bitwise_and(car_mask, bird_view)
     # print(time.time() - start_time)
     # start_time = time.time()
-    bird_view = bird_view - temp
+    # bird_view = bird_view - temp
     bird_view = bird_view.astype(np.uint8)
 
     # cv2.imshow("mask", frame)
     # cv2.imshow("bird_view", bird_view)
-    angle = (get_confident_vectors(bird_view)) * 25
+    angle = (get_confident_vectors(bird_view)) * 100
     speed = dynamic_speed(angle)
 
     if sign != -1:

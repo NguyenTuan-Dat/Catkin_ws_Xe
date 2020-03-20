@@ -5,6 +5,6 @@
 
 	<node pkg="dira_pca8266_controller" type="dira_pca8266_controller_node" name="pca1"
  output="screen" />
- <node name="layhinh" pkg="test_pkg" type="layhinh.py" output="screen"/>
+ <node name="drive" pkg="team503" type="drive.py" output="screen"/>
 
 </launch>

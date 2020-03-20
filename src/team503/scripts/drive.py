@@ -56,8 +56,8 @@ rospack = rospkg.RosPack()
 cur_dir = rospack.get_path('team503')
 
 
-pub_steer = rospy.Publisher('team503/set_angle', Float32, queue_size=10)
-pub_speed = rospy.Publisher('team503/set_speed', Float32, queue_size=10)
+pub_steer = rospy.Publisher('set_steer_car_api', Float32, queue_size=10)
+pub_speed = rospy.Publisher('set_speed_car_api', Float32, queue_size=10)
 
 
 
@@ -168,7 +168,6 @@ def get_sign(image_RGB, model2):
         sign_crop = cv2.resize(sign_crop, (16, 16))
         print("here")
         sign_predicted = model2.predict(np.array([sign_crop]))
-        # image_rgb = cv2.rectangle(img_rgb, (x_sign, y_sign), (x_sign+w_sign, y_sign+h_sign), (255, 255, 255), 2)
         print(sign_predicted)
         sign_id = np.where(sign_predicted[0] == np.amax(sign_predicted[0]))
         print(sign_id)
@@ -230,7 +229,7 @@ def drive_callback(rgb_data):
         cv2.waitKey(1)
 
 def listener():
-    rospy.Subscriber('team503/camera/rgb/compressed', CompressedImage, drive_callback, buff_size=2 ** 24)
+    rospy.Subscriber('/camera/rgb/image_raw/compressed', CompressedImage, drive_callback, buff_size=2 ** 24)
     rospy.spin()
 
 
