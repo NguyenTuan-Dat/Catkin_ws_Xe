@@ -26,7 +26,7 @@ cur_dir = rospack.get_path('team503')
 
 
 def dynamic_speed(angle):
-    return 20 - (abs(angle) * 0.8)
+    return 30 - (abs(angle) * 0.1)
 
 def get_bird_view(img):
     IMAGE_H = 320
