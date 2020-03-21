@@ -120,9 +120,9 @@ def random_brightness(image):
     return cv2.cvtColor(hsv, cv2.COLOR_HSV2RGB)
 
 
-def augument(data_dir, center, left, right, steering_angle, range_x=100, range_y=10):
+def augment(data_dir, center, left, right, steering_angle, range_x=100, range_y=10):
     """
-    Generate an augumented image and adjust steering angle.
+    Generate an augmented image and adjust steering angle.
     (The steering angle is associated with the center image)
     """
     image, steering_angle = choose_image(data_dir, center, left, right, steering_angle)
