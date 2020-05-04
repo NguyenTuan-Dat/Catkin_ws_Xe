@@ -220,11 +220,12 @@ def drive_callback(rgb_data):
             image_RGB = cv2.cvtColor(image_np, cv2.COLOR_BGR2RGB)
 
             ###################################### GET ROAD, LINE, SIGN, OBSTACLE MASK ###########################################
-            
+            begin_predict = time.time()
             pr_mask = model.predict(image_RGB)
-            cv2.imshow("image_RGB",image_RGB)
-            cv2.imshow("pr_mask",pr_mask)
-            cv2.waitKey(1)
+            print("Time predict:"+str(time.time()-begin_predict))
+            # cv2.imshow("image_RGB",image_RGB)
+            # cv2.imshow("pr_mask",pr_mask)
+            # cv2.waitKey(1)
             sign = -1
 
             ###################################### GET TURN RIGHT, TURN LEFT SIGN ###########################################
@@ -254,7 +255,7 @@ def drive_callback(rgb_data):
             msg_steer.data = float(angle)
             msg_speed.data = float(speed)
             pub_steer.publish(msg_steer)
-            print("Time:"+str(time.time()-begin))
+            print("Time total:"+str(time.time()-begin))
             # pub_speed.publish(msg_speed)
     else:
         pub_lcd.publish("")
@@ -267,8 +268,8 @@ def drive_callback(rgb_data):
 
 def listener():
     rospy.Subscriber('/camera/rgb/image_raw/compressed', CompressedImage, drive_callback, buff_size=2 ** 24)
-    rospy.Subscriber('bt1', Bool, start_cb,buff_size=10)
-    rospy.Subscriber('bt2', Bool, stop_cb,buff_size=10)
+    rospy.Subscriber('bt1_status', Bool, start_cb,buff_size=10)
+    rospy.Subscriber('bt2_status', Bool, stop_cb,buff_size=10)
     rospy.spin()
 
 

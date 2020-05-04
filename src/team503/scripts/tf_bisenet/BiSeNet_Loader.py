@@ -26,6 +26,7 @@ colors = np.array([[0,0,0],
 [0, 0, 142],
 [70,130,180]], dtype=np.float32)
 
+mean_rgb = np.array([129.34724248053516, 128.770223343092, 132.06705446739244])
 
 class BiseNet_Loader(object):
     def __init__(self):
@@ -34,33 +35,35 @@ class BiseNet_Loader(object):
 
         self.sess = tf.Session(config=sess_config)
         
-        with tf.gfile.GFile("/home/ubuntu/cds-segmentation/frozen_bisenet/frozen_model.pb", 'rb') as f:
+        with tf.gfile.GFile("/home/ubuntu/catkin_ws/src/team503/scripts/tf_bisenet/frozen_model/frozen_model.pb", 'rb') as f:
             frozen_graph = tf.GraphDef()
             frozen_graph.ParseFromString(f.read())
         # Now you can create a TensorRT inference graph from your
         # frozen graph:
         converter = trt.TrtGraphConverter(
             input_graph_def=frozen_graph,
-            nodes_blacklist=['combine_path/Softmax:0']) #output nodes
+            nodes_blacklist=['combine_path/output:0']) #output nodes
         trt_graph = converter.convert()
         # Import the TensorRT graph into a new graph and run:
-        self.response = tf.import_graph_def(
+        output_node = tf.import_graph_def(
             trt_graph,
-            return_elements=['combine_path/Softmax:0'])
+            return_elements=['combine_path/output:0'])
 
         # sess.run(local_variables_init_op)
         img = np.ones((1, 256, 256, 3))
         self.transform = tf.reshape(tf.matmul(tf.reshape(tf.one_hot(tf.argmax(self.response, -1), 5), [-1, 5]), colors),
                             [-1, 256, 256, 3])
-        _ = self.sess.run(self.transform, feed_dict={"import/image_input:0": img})
+        _ = self.sess.run(self.transform, feed_dict={"import/Placeholder:0": img})
+        _ = self.sess.run(self.transform, feed_dict={"import/Placeholder:0": img})
 
         print("Model loaded!")
 
     def predict(self, img):
         img = cv2.resize(img, (256, 256))
-        img = img/255.
+        image = image/255.
+        image -= mean_rgb/255.
         img = np.expand_dims(img, axis=0)
-        predict = self.sess.run(self.transform, feed_dict={"import/image_input:0": img})
+        predict = self.sess.run(self.transform, feed_dict={"import/Placeholder:0": img})
         predict = cv2.cvtColor(predict[0], cv2.COLOR_RGB2BGR)
         predict = cv2.resize(predict, (480, 640))
         return predict
